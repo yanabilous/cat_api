@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types'; // Додайте імпорт prop-types
 
-const Button = ({ content }) => {
+const Button = ({ content, padding, icon }) => {
   const [isActive, setIsActive] = useState(false);
 
   const handleMouseDown = () => {
@@ -11,19 +11,28 @@ const Button = ({ content }) => {
   const handleMouseUp = () => {
     setIsActive(false);
   };
+   const buttonStyles = {
+    padding: padding
+  };
+
 
   return (
     <button
       className={`custom-button ${isActive ? 'active' : ''}`}
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}
+      style={buttonStyles}
     >
-      {content}
+      {content && !icon && content}
+      {icon && !content && icon}
+
     </button>
   );
 };
 Button.propTypes = {
-  content: PropTypes.string.isRequired, // Додайте валідацію типу для пропса 'content'
+  content: PropTypes.string,
+  icon: PropTypes.element,
+  padding: PropTypes.string.isRequired,
 };
 
 export default Button;
