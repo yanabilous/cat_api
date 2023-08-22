@@ -54,19 +54,19 @@ const Sidebar = () => {
               <li>
                 <Link to="/voting">
                    <SidebarItem backgroundColor="#B4B7FF" src={voting}/>
-                  <Button content="Voting"/>
+                  <Button content="Voting" padding="11px 40px"/>
                 </Link>
               </li>
               <li>
                 <Link to="/breeds">
                   <SidebarItem backgroundColor="#97EAB9" src={breeds}/>
-                  <Button content="Breeds"/>
+                  <Button content="Breeds" padding="11px 40px"/>
                 </Link>
               </li>
               <li>
                 <Link to="/gallery">
                   <SidebarItem backgroundColor="#FFD280" src={gallery}/>
-                  <Button content="Gallery"/>
+                  <Button content="Gallery" padding="11px 40px"/>
                 </Link>
               </li>
             </ul>

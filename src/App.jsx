@@ -12,7 +12,7 @@ const App = () => (
     <Sidebar />
     <Routes>
       <Route path="/" element={<Outlet />}>
-        <Route path="" element={<Home />} />
+        <Route path="home" element={<Home />} />
         <Route path="voting" element={<Voting />} />
         <Route path="breeds" element={<Breeds />} />
         <Route path="gallery" element={<Gallery />} />
