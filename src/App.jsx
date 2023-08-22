@@ -1,19 +1,15 @@
-// eslint-disable-next-line no-unused-vars
 import React from "react";
 import {Outlet, Route, Routes} from "react-router-dom";
 import Home from "./pages/home/Home";
 import Breeds from "./pages/breeds/Breeds";
 import Voting from "./pages/voting/Voting";
 import Gallery from "./pages/gallery/Gallery";
-import Header from "./components/header/Header";
-
-
-
+import Sidebar from "./components/sidebar/Sidebar.jsx";
 
 
 const App = () => (
-  <div>
-    <Header />
+  <div className="app-container">
+    <Sidebar />
     <Routes>
       <Route path="/" element={<Outlet />}>
         <Route path="" element={<Home />} />

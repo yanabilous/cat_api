@@ -1,16 +1,16 @@
-// eslint-disable-next-line no-unused-vars
+
 import React from "react";
-// import Header from "../../components/header/Header.jsx";
+// import Sidebar from "../../components/sidebar/Sidebar.jsx";
 
 // import "../styles/_home.scss";
 
 
 const Breeds = () => (
   <>
-    {/*<Header/>*/}
+    {/*<Sidebar/>*/}
     <div className="container">
       <main className="main">
-
+апролд
       </main>
     </div>
   </>
