@@ -5,6 +5,7 @@ import Breeds from "./pages/breeds/Breeds";
 import Voting from "./pages/voting/Voting";
 import Gallery from "./pages/gallery/Gallery";
 import Sidebar from "./components/sidebar/Sidebar.jsx";
+import BreedsInfo from "./pages/breedsInfo/BreedsInfo.jsx";
 
 
 const App = () => (
@@ -13,8 +14,9 @@ const App = () => (
     <Routes>
       <Route path="/" element={<Outlet />}>
         <Route path="home" element={<Home />} />
-        <Route path="voting" element={<Voting />} />
-        <Route path="breeds" element={<Breeds />} />
+        <Route path="voting" element={<Voting />}/>
+        <Route path="breeds" element={<Breeds />}/>
+        <Route path="breeds/:breedId" element={<BreedsInfo />} />
         <Route path="gallery" element={<Gallery />} />
       </Route>
     </Routes>

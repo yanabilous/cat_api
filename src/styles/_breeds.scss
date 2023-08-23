@@ -1,4 +1,4 @@
-.main_voting {
+.main_breeds {
   border-radius: 20px;
   background: #FFF;
   padding-bottom: 10px;
@@ -23,56 +23,51 @@
       border-radius: 10px;
       margin-left: 10px;
     }
-  }
 
-  .icon_voting {
-    img {
-      margin: 20px 20px 52px 20px;
-    }
-  }
+    .select_breeds {
+      select {
+        border-radius: 10px;
+        background: #F8F8F7;
+        border: none;
+        width: 226px;
+        height: 40px;
 
-  .textItem_voting {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    border-radius: 10px;
-    background: #F8F8F7;
-    margin: 0 20px 10px 20px;
-
-    .flex_time_desc_voting {
-      display: flex;
-
-      .time_voting {
-        color: #1D1D1D;
-        font-family: Jost, sans-serif;
-        font-size: 16px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 24px; /* 150% */
-        //margin-left: 30px;
-        margin-right: 30px;
-        border-radius: 5px;
-        background: #FFF;
-        padding: 3px 10px;
-
-      }
-
-      .description_voting {
         color: #8C8C8C;
         font-family: Jost, sans-serif;
         font-size: 16px;
         font-style: normal;
         font-weight: 400;
         line-height: 24px; /* 150% */
-        span {
-          color: #1D1D1D;
-          font-family: Jost, sans-serif;
-          font-size: 16px;
-          font-style: normal;
-          font-weight: 500;
-          line-height: 24px;
-        }
+        margin-left: 10px;
+        margin-right: 10px;
+
       }
+
+
+    }
+
+    .select_photo_count {
+      select {
+        color: #8C8C8C;
+        font-family: Jost, sans-serif;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 24px; /* 150% */
+        border-radius: 10px;
+        background: #F8F8F7;
+        width: 101px;
+        height: 40px;
+        border: none;
+      }
+    }
+
+    .btn_sortByAlphabet {
+      border: none;
+      border-radius: 10px;
+      width: 40px;
+      height: 40px;
+      margin-left: 10px;
     }
   }
 }
