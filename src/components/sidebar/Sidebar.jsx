@@ -9,12 +9,12 @@ import breeds from "../../assets/images/sidebar/pet-breeds.png";
 import gallery from "../../assets/images/sidebar/images-search.png";
 import Button from "../button/Button.jsx";
 import SidebarItem from "../sidebarItem/SidebarItem.jsx";
-// import Button from "../button/Button";
+
 
 
 const Sidebar = () => {
   return (
-    <div className="header">
+    <div className="header_sidebar">
       <div className="header-wrapper">
         <Link className="logo" to="/">
           <img className="logo-element" src={logo} alt=""/>
