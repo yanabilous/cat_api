@@ -6,6 +6,9 @@ import Voting from "./pages/voting/Voting";
 import Gallery from "./pages/gallery/Gallery";
 import Sidebar from "./components/sidebar/Sidebar.jsx";
 import BreedsInfo from "./pages/breedsInfo/BreedsInfo.jsx";
+import Favorite from "./pages/favorite/Favorite.jsx";
+import Like from "./pages/like/Like.jsx";
+import Dislike from "./pages/dislike/Dislike.jsx";
 
 
 const App = () => (
@@ -18,6 +21,9 @@ const App = () => (
         <Route path="breeds" element={<Breeds />}/>
         <Route path="breeds/:breedId" element={<BreedsInfo />} />
         <Route path="gallery" element={<Gallery />} />
+        <Route path="favorite" element={<Favorite />} />
+        <Route path="like" element={<Like />} />
+        <Route path="dislike" element={<Dislike />} />
       </Route>
     </Routes>
 
