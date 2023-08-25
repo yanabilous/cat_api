@@ -1,0 +1,46 @@
+.main_dislike {
+  height: 100vh;
+  border-radius: 20px;
+  background: #FFF;
+  margin-right: 20px;
+
+  .btn_back {
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+
+    p {
+      color: #FFF;
+      text-align: center;
+      font-family: Jost, sans-serif;
+      font-size: 20px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 30px;
+      letter-spacing: 2px;
+      padding: 5px 29px;
+      background: #FF868E;
+      border-radius: 10px;
+      margin-left: 10px;
+    }
+  }
+
+  .no_items {
+    border-radius: 10px;
+    background: #F8F8F7;
+    width: 640px;
+    height: 60px;
+    margin: 0 auto;
+    display: flex;
+
+    p {
+      color: #8C8C8C;
+      font-family: Jost, sans-serif;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 24px; /* 150% */
+      margin-left: 20px;
+    }
+  }
+}

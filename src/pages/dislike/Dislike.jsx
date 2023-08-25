@@ -4,14 +4,12 @@ import {Link} from "react-router-dom";
 import Button from "../../components/button/Button.jsx";
 
 
-
-
-const Favorite = () => {
+const Dislike = () => {
   return (
     <>
       <div className="container">
         <Header/>
-        <main className="main_favorite">
+        <main className="main_dislike">
           <div className="btn_back">
             <Link to="/home">
               <Button padding={"8px 10px"}
@@ -28,13 +26,12 @@ const Favorite = () => {
                         </defs>
                       </svg>}/>
             </Link>
-            <p>FAVOURITES</p>
+            <p>DISLIKES</p>
           </div>
-          <div className="no_items"><p>No item found</p></div>
-
+<div className="no_items"><p>No item found</p></div>
         </main>
       </div>
     </>
   );
 };
-export default Favorite;
+export default Dislike;

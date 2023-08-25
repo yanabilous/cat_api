@@ -6,12 +6,12 @@ import Button from "../../components/button/Button.jsx";
 
 
 
-const Favorite = () => {
+const Like = () => {
   return (
     <>
       <div className="container">
         <Header/>
-        <main className="main_favorite">
+        <main className="main_like">
           <div className="btn_back">
             <Link to="/home">
               <Button padding={"8px 10px"}
@@ -28,13 +28,12 @@ const Favorite = () => {
                         </defs>
                       </svg>}/>
             </Link>
-            <p>FAVOURITES</p>
+            <p>LIKES</p>
           </div>
-          <div className="no_items"><p>No item found</p></div>
-
+<div className="no_items"><p>No item found</p></div>
         </main>
       </div>
     </>
   );
 };
-export default Favorite;
+export default Like;
