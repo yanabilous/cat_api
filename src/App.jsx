@@ -9,21 +9,23 @@ import BreedsInfo from "./pages/breedsInfo/BreedsInfo.jsx";
 import Favorite from "./pages/favorite/Favorite.jsx";
 import Like from "./pages/like/Like.jsx";
 import Dislike from "./pages/dislike/Dislike.jsx";
+import UploadPhoto from "./pages/uploadPhoto/UploadPhoto.jsx";
 
 
 const App = () => (
   <div className="app-container">
-    <Sidebar />
+    <Sidebar/>
     <Routes>
-      <Route path="/" element={<Outlet />}>
-        <Route path="home" element={<Home />} />
-        <Route path="voting" element={<Voting />}/>
-        <Route path="breeds" element={<Breeds />}/>
-        <Route path="breeds/:breedId" element={<BreedsInfo />} />
-        <Route path="gallery" element={<Gallery />} />
-        <Route path="favorite" element={<Favorite />} />
-        <Route path="like" element={<Like />} />
-        <Route path="dislike" element={<Dislike />} />
+      <Route path="/" element={<Outlet/>}>
+        <Route path="" element={<Home/>}/>
+        <Route path="voting" element={<Voting/>}/>
+        <Route path="breeds" element={<Breeds/>}/>
+        <Route path="breeds/:breedId" element={<BreedsInfo/>}/>
+        <Route path="gallery" element={<Gallery/>}/>
+        <Route path="gallery/:uploadPhoto" element={<UploadPhoto/>}/>
+        <Route path="favorite" element={<Favorite/>}/>
+        <Route path="like" element={<Like/>}/>
+        <Route path="dislike" element={<Dislike/>}/>
       </Route>
     </Routes>
 

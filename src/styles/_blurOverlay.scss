@@ -1,0 +1,11 @@
+/* BlurOverlay.css */
+.blur-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(29, 29, 29, 0.60);
+  //backdrop-filter: blur(10px); /* Додайте блюр ефект за допомогою backdrop-filter */
+  z-index: 20;
+}

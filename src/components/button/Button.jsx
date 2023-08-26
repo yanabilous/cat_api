@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import PropTypes from "prop-types"; // Додайте імпорт prop-types
+import PropTypes from "prop-types";
 
 const Button = ({content, padding, icon}) => {
   const [isActive, setIsActive] = useState(false);
@@ -31,8 +31,6 @@ const Button = ({content, padding, icon}) => {
           {icon}
         </>
       )}
-      {/*{content && !icon && content}*/}
-      {/*{icon && !content && icon}*/}
 
     </button>
   );
