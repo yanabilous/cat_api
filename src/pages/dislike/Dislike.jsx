@@ -1,10 +1,40 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import Header from "../../components/header/Header.jsx";
 import {Link} from "react-router-dom";
 import Button from "../../components/button/Button.jsx";
+import Masonry from "../../components/masonry/Masonry.jsx";
 
 
 const Dislike = () => {
+  const [retrievedCats, setRetrievedCats] = useState([]);
+  const filteredMasonryItems = () => {
+    return retrievedCats;
+
+  };
+
+
+  const getCats = () => {
+    let myHeaders = new Headers();
+    myHeaders.append("x-api-key", "live_DplEv4vIA4jSOEJfCgEPl45FLrfvWac38q1dhPGBBzn3GQjNLHk3kSaZUky39PUl");
+    myHeaders.append("Content-Type", "application/json");
+
+
+    let requestOptions = {
+      method: "GET", headers: myHeaders, redirect: "follow"
+    };
+
+
+    fetch(`https://api.thecatapi.com/v1/images/search?`, requestOptions)
+      .then(response => response.text())
+      .then(result => {
+        console.log(result);
+        setRetrievedCats(JSON.parse(result));
+      })
+      .catch(error => console.log("error", error));
+  };
+  useEffect(() => {
+    getCats();
+  }, []);
   return (
     <>
       <div className="container">
@@ -28,7 +58,7 @@ const Dislike = () => {
             </Link>
             <p>DISLIKES</p>
           </div>
-<div className="no_items"><p>No item found</p></div>
+         {retrievedCats.length > 0 ? <Masonry items={filteredMasonryItems()}/> : <div className="no_items"><p>No item found</p></div>}
         </main>
       </div>
     </>

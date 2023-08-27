@@ -8,11 +8,6 @@ const Masonry = (props) => {
     <>
       <div className="masonry-container">
         <div className="masonry">
-          {/*{images.map((image, index) => (*/}
-          {/*  <div key={index} className={`item item-${index + 1}`}>*/}
-          {/*    <img src={image} alt={`Image ${index + 1}`} className="image"/>*/}
-          {/*  </div>*/}
-          {/*))}*/}
           {/* eslint-disable-next-line react/prop-types */}
           {items.map((item, index) => (
             <div key={index} className={`item item-${index + 1}`}>
@@ -21,15 +16,6 @@ const Masonry = (props) => {
           ))}
         </div>
       </div>
-      {/*<div className="masonry-container mirrored">*/}
-      {/*  <div className="masonry">*/}
-      {/*    {images.slice(3, 5).map((image, index) => (*/}
-      {/*      <div key={index} className={`item item-${index + 4}`}>*/}
-      {/*        <img src={image} alt={`Image ${index + 4}`} className="image"/>*/}
-      {/*      </div>*/}
-      {/*    ))}*/}
-      {/*  </div>*/}
-      {/*</div>*/}
     </>
 
   );

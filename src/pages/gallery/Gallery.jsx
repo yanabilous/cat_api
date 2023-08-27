@@ -6,16 +6,21 @@ import Masonry from "../../components/masonry/Masonry.jsx";
 
 
 const Gallery = () => {
+  const [selectedBreed, setSelectedBreed] = useState("None");
+  const [selectedPhotoCount, setSelectedPhotoCount] = useState(5);
+  const [availableBreeds, setAvailableBreeds] = useState([]);
   const [retrievedCats, setRetrievedCats] = useState([]);
-  const [sortedOrder, setSortedOrder] = useState("Random");
-  const [sortedType, setSortedType] = useState("All");
-  const [sortedBreed, setSortedBreed] = useState("None");
-  const [sortedLimit, setSortedLimit] = useState(5);
+  const [order, setOrder] = useState("Random");
+  const [type, setType] = useState("All");
 
-  const orders = ["Random", "Desc", "Asc"];
-  const types = ["All", "Static", "Animated"];
-  const breeds = ["None", "Bengal", "Bengal"];
-  const limits = [5, 10, 15, 20];
+  const photoCounts = [5, 10, 15, 20];
+  const orders = ["Random", "ASC", "DESC"];
+  const types = [{id: "jpg,png,gif", name: "All"}, {id: "jpg,png", name: "Static"}, {id: "gif", name: "Animation"}];
+  const filteredMasonryItems = () => {
+    return retrievedCats;
+
+  };
+
 
   const getCats = () => {
     let myHeaders = new Headers();
@@ -24,12 +29,11 @@ const Gallery = () => {
 
 
     let requestOptions = {
-      method: "GET",
-      headers: myHeaders,
-      redirect: "follow"
+      method: "GET", headers: myHeaders, redirect: "follow"
     };
 
-    fetch("https://api.thecatapi.com/v1/images/search?limit=10", requestOptions)
+
+    fetch(`https://api.thecatapi.com/v1/images/search?mime_types=${type}&order=${order}&limit=${selectedPhotoCount}${selectedBreed === "None" ? "" : "&breed_ids=" + selectedBreed}`, requestOptions)
       .then(response => response.text())
       .then(result => {
         console.log(result);
@@ -37,27 +41,47 @@ const Gallery = () => {
       })
       .catch(error => console.log("error", error));
   };
+  const getBreeds = () => {
+    console.log("getBreeds");
+    let myHeaders = new Headers();
+    myHeaders.append("x-api-key", "live_DplEv4vIA4jSOEJfCgEPl45FLrfvWac38q1dhPGBBzn3GQjNLHk3kSaZUky39PUl");
+    myHeaders.append("Content-Type", "application/json");
+
+    const requestOptions = {
+      method: "GET", headers: myHeaders, redirect: "follow"
+    };
+
+    fetch("https://api.thecatapi.com/v1/breeds?limit=10&page=0", requestOptions)
+      .then(response => response.text())
+      .then(result => {
+        console.log("getBreeds result", result);
+        const breeds = JSON.parse(result).map(breed => ({name: breed.name, id: breed.id}));
+        setAvailableBreeds([{"name": "All breeds", id: "All breeds"}, ...breeds]);
+      })
+      .catch(error => console.log("error", error));
+  };
+  // ignor
+  useEffect(() => {
+    getBreeds();
+    getCats();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   useEffect(() => {
     getCats();
-  }, []);
-  const filteredMasonryItems = () => {
-    return retrievedCats;
-
-  };
-  const handleOrderChange = (event) => {
-    setSortedOrder(event.target.value);
-  };
-  const handleTypeChange = (event) => {
-    setSortedType(event.target.value);
-  };
-
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedBreed, selectedPhotoCount, order, type]);
   const handleBreedChange = (event) => {
-    setSortedBreed(event.target.value);
+    setSelectedBreed(event.target.value);
   };
 
-  const handleLimitChange = (event) => {
-    setSortedLimit(event.target.value);
+  const handlePhotoCountChange = (event) => {
+    setSelectedPhotoCount(parseInt(event.target.value));
   };
+
+
+
+
   return (
     <>
       {/*<Sidebar/>*/}
@@ -97,21 +121,22 @@ const Gallery = () => {
           <div className="filters_gallery">
             <div className="select select_order">
               <p>Order</p>
-              <select className="select_gallery" value={sortedOrder} onChange={handleOrderChange}>
+              <select className="select_gallery" value={order} onChange={(event) => setOrder(event.target.value)}>
                 {orders.map((order) => (
                   <option key={order} value={order}>
                     {order}
                   </option>
                 ))}
               </select>
+
             </div>
 
             <div className="select select_type">
               <p>Type</p>
-              <select className="select_gallery" value={sortedType} onChange={handleTypeChange}>
+              <select className="select_gallery" value={type} onChange={(event) => setType(event.target.value)}>
                 {types.map((type) => (
-                  <option key={type} value={type}>
-                    {type}
+                  <option key={type.id} value={type.id}>
+                    {type.name}
                   </option>
                 ))}
               </select>
@@ -119,21 +144,18 @@ const Gallery = () => {
 
             <div className="select select_breed">
               <p>Breed</p>
-              <select className="select_gallery" value={sortedBreed} onChange={handleBreedChange}>
-                {breeds.map((breed) => (
-                  <option key={breed} value={breed}>
-                    {breed}
-                  </option>
-                ))}
+              <select className="select_gallery" value={selectedBreed} onChange={handleBreedChange}>
+                {availableBreeds.map(breed => (<option key={breed.id} value={breed.id}>
+                  {breed.name}
+                </option>))}
               </select>
             </div>
 
             <div className="select select_breed">
               <p>Limit</p>
-              <select className="select_gallery_cast" value={sortedLimit} onChange={handleLimitChange}>
-                {limits.map((limit) => (
-                  <option key={limit} value={limit}>
-                    {limit}
+              <select className="select_gallery_cast" value={selectedPhotoCount} onChange={handlePhotoCountChange}>
+                {photoCounts.map((count) => (<option key={count} value={count}>
+                    {count} photos
                   </option>
                 ))}
               </select>
@@ -145,9 +167,11 @@ const Gallery = () => {
                         <path fillRule="evenodd" clipRule="evenodd"
                               d="M8.48189 2.49989L6.93396 0.953004L7.88633 0L11.0577 3.16928L7.88634 6.33873L6.93395 5.38576L8.47232 3.84832C4.51244 3.99813 1.3473 7.25498 1.3473 11.2478C1.3473 15.3361 4.66547 18.6527 8.75744 18.6527C12.8494 18.6527 16.1676 15.3361 16.1676 11.2478V10.5742H17.5149V11.2478C17.5149 16.081 13.5927 20 8.75744 20C3.92221 20 0 16.081 0 11.2478C0 6.50682 3.77407 2.64542 8.48189 2.49989Z"
                               fill="#FF868E"/>
-                      </svg>}/>
+                      </svg>}
+              onClick={() => getCats()} />
             </div>
           </div>
+
           <Masonry items={filteredMasonryItems()}/>
         </main>
       </div>

@@ -1,11 +1,42 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import Header from "../../components/header/Header.jsx";
 import {Link} from "react-router-dom";
 import Button from "../../components/button/Button.jsx";
+import Masonry from "../../components/masonry/Masonry.jsx";
+// import image from "react-multi-carousel/dev/components/image.js";
 
 
 const Favorite = () => {
+  const [retrievedFavCats, setRetrievedFavCats] = useState([]);
+  const filteredMasonryItems = () => {
+    return retrievedFavCats;
 
+  };
+
+  const getFavorite = () => {
+    let myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("x-api-key", "live_DplEv4vIA4jSOEJfCgEPl45FLrfvWac38q1dhPGBBzn3GQjNLHk3kSaZUky39PUl");
+
+    let requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+      redirect: "follow"
+    };
+
+    fetch("https://api.thecatapi.com/v1/favourites?sub_id=", requestOptions)
+      .then(response => response.text())
+      .then(result => {
+        console.log(result);
+        setRetrievedFavCats(JSON.parse(result).map(item => ({url: item.image.url})));
+      })
+      .catch(error => console.log("error", error));
+  };
+
+  useEffect(() => {
+
+    getFavorite();
+  }, []);
   return (
     <>
       <div className="container">
@@ -29,7 +60,9 @@ const Favorite = () => {
             </Link>
             <p>FAVOURITES</p>
           </div>
-          <div className="no_items"><p>No item found</p></div>
+          {retrievedFavCats.length > 0 ? <Masonry items={filteredMasonryItems()}/> :
+            <div className="no_items"><p>No item found</p></div>}
+
 
         </main>
       </div>

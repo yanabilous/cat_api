@@ -1,15 +1,22 @@
+.container_head{
+   max-width: 680px;
+}
 .main_header {
-display: flex;
+  display: flex;
   margin-bottom: 10px;
+  //max-width: 680px;
+
 
   .label_inputSearch {
     position: relative;
     display: inline-block;
+    width: 435px;
+    margin-right: 15px;
 
     .inputSearch {
       //padding: 20px 163px;
       outline: none;
-      width: 450px;
+      width: 425px;
       height: 60px;
       border: none;
       border-radius: 20px;
@@ -21,6 +28,7 @@ display: flex;
       line-height: 30px;
       padding-left: 20px;
 
+
     }
 
 
@@ -29,7 +37,6 @@ display: flex;
       border-radius: 10px;
       background: #FBE0DC;
       padding: 10px;
-
       top: 50%;
       right: 5px;
       transform: translateY(-50%);
@@ -39,5 +46,7 @@ display: flex;
 
   .custom-button {
     margin-left: 10px;
+    border-radius: 20px;
+
   }
 }
