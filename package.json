@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite  --host",
-    "start": "vite preview",
+    "start": "serve -s dist -l 443",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
@@ -34,6 +34,7 @@
     "redux-persist": "^6.0.0",
     "redux-thunk": "^2.4.2",
     "sass": "^1.62.1",
+    "serve": "^14.2.1",
     "util": "^0.12.5",
     "util.promisify": "^1.1.2",
     "vite": "^4.4.5",
