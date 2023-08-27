@@ -54,7 +54,7 @@ const Sidebar = () => {
               <li>
                 <Link to="/voting">
                    <SidebarItem backgroundColor="#B4B7FF" src={voting}/>
-                  <Button content="Voting" padding="11px 40px"/>
+                  <Button content="Voting" padding="11px 44px"/>
                 </Link>
               </li>
               <li>
