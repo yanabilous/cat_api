@@ -1,0 +1,12 @@
+.app-container {
+  display: flex;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+}
+
+.app-container > * {
+  flex: 1;
+  //padding: 20px;
+  box-sizing: border-box;
+}

@@ -1,0 +1,39 @@
+.custom-button {
+  background: #FFF;
+  color: #FF868E;
+  text-align: center;
+  font-family: Jost, sans-serif;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 16px;
+  letter-spacing: 2px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  text-transform: uppercase;
+    svg {
+    fill: #FF868E;
+  }
+}
+
+
+.custom-button:hover {
+  background: #FBE0DC;
+  color: #FF868E;
+    svg {
+     fill: #FF868E;
+  }
+}
+
+.custom-button.active {
+  background: #FF868E;
+  color: #FFF;
+  transform: scale(0.98);
+  svg {
+    fill: white;
+  }
+
+}
+

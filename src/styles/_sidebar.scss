@@ -1,0 +1,49 @@
+.header_sidebar {
+  position: sticky;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  margin-left: 147px;
+  margin-top: 30px;
+
+
+  h4 {
+    font-family: Jost, sans-serif;
+    font-size: 44px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 58px;
+    margin: 85px 0 10px 0;
+  }
+
+  h1 {
+    color: #8C8C8C;
+    font-family: Jost, sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+
+  .nav {
+    p {
+      color: #1D1D1D;
+      margin: 60px 0 20px 0;
+      font-family: Jost, sans-serif;
+      font-size: 20px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: normal;
+    }
+  }
+
+  .nav-list {
+    display: flex;
+    padding: 0;
+
+    li {
+      list-style-type: none;
+      margin: 0 16px 0 0;
+    }
+  }
+}
