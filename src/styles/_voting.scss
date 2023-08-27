@@ -6,6 +6,7 @@
   border-radius: 20px;
   background: #FFF;
   padding-bottom: 30vh;
+  position: relative;
   //margin-right: 30px;
 
   .btn_back {
@@ -57,9 +58,9 @@
   }
 
   .btn_complected {
-    position: absolute;
-    top: 54%;
-    left: 68%;
+        position: absolute;
+    top: 395px;
+    left: 216px;
     //display: flex;
     width: 246px;
     height: 80px;

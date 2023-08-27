@@ -2,132 +2,76 @@ import React, {useEffect, useState} from "react";
 import Header from "../../components/header/Header.jsx";
 import Button from "../../components/button/Button.jsx";
 import {Link} from "react-router-dom";
+import {fetchWrapper} from "../../utils/makeRequest.js";
+import {TailSpin} from "react-loader-spinner";
 
 
 const Voting = () => {
   const [cat, setCat] = useState();
   const [userLogs, setUserLogs] = useState([]);
-  // eslint-disable-next-line no-unused-vars
   const [favId, setFavId] = useState();
   const currentUser = localStorage.getItem("userId");
-  console.log("currentUser", currentUser);
+  // const [isLoading, setIsLoading] = useState(false)
 
   const getRandomCat = () => {
-    let myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-    myHeaders.append("x-api-key", "live_DplEv4vIA4jSOEJfCgEPl45FLrfvWac38q1dhPGBBzn3GQjNLHk3kSaZUky39PUl");
-
-    let requestOptions = {
-      method: "GET",
-      headers: myHeaders,
-      redirect: "follow"
-    };
-
-    fetch("https://api.thecatapi.com/v1/images/search", requestOptions)
-      .then(response => response.json())
+    fetchWrapper.get(`v1/images/search`)
       .then(result => setCat(result[0]))
-      .catch(error => console.log("error", error));
+      .catch(error => console.error("There was an error!", error));
   };
-  const time = (unix_timestamp) => {
-    let date = new Date(unix_timestamp * 1000);
-    let hours = date.getHours();
-    let minutes = "0" + date.getMinutes();
-    let formattedTime = hours + ":" + minutes.substr(-2);
-
-
-    return formattedTime;
+  const getTime = (datetime) => {
+    let date = new Date(datetime);
+    return date.toLocaleTimeString([], {hour: "2-digit", minute: "2-digit"});
   };
   const addUserLog = (actionType) => {
     const userLog = {
-      dataTime: Date.now(),
+      dataTime: new Date(),
       catId: cat.id,
       action: actionType
     };
-    setUserLogs(current => [...current, userLog]);
+    setUserLogs(current => [userLog, ...current]);
   };
 
   const postFavorite = () => {
-    let myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-    myHeaders.append("x-api-key", "live_DplEv4vIA4jSOEJfCgEPl45FLrfvWac38q1dhPGBBzn3GQjNLHk3kSaZUky39PUl");
-
-    let raw = JSON.stringify({
+    let body = JSON.stringify({
       "image_id": cat.id,
       "sub_id": currentUser,
     });
 
-    let requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: raw,
-      redirect: "follow"
-    };
-
-    fetch("https://api.thecatapi.com/v1/favourites", requestOptions)
-      .then(response => response.json())
+    fetchWrapper.post(`v1/favourites`, body)
       .then(result => {
-        console.log(result);
         setFavId(result.id);
-          addUserLog("Favorites");
+        addUserLog("Favorites");
       })
-
-      .catch(error => console.log("error", error));
+      .catch(error => console.error("There was an error!", error));
   };
 
   const deleteFav = () => {
-    let myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-    myHeaders.append("x-api-key", "live_DplEv4vIA4jSOEJfCgEPl45FLrfvWac38q1dhPGBBzn3GQjNLHk3kSaZUky39PUl");
-
-    let requestOptions = {
-      method: "DELETE",
-      headers: myHeaders,
-      redirect: "follow"
-    };
-
-    fetch("https://api.thecatapi.com/v1/favourites/232392031", requestOptions)
-      .then(response => response.text())
-       .then(result => {
-        console.log(result);
+    fetchWrapper.delete(`v1/favourites/${favId}`)
+      // eslint-disable-next-line no-unused-vars
+      .then(result => {
         setFavId(null);
+        addUserLog("Unfavorites");
       })
-      .catch(error => console.log("error", error));
+      .catch(error => console.error("There was an error!", error));
   };
   const postVoting = (votingType) => {
-    let myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-    myHeaders.append("x-api-key", "live_DplEv4vIA4jSOEJfCgEPl45FLrfvWac38q1dhPGBBzn3GQjNLHk3kSaZUky39PUl");
-
-    let raw = JSON.stringify({
+    let body = JSON.stringify({
       "image_id": cat.id,
       "sub_id": currentUser,
       "value": votingType
     });
-
-    let requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: raw,
-      redirect: "follow"
-    };
-
-    fetch("https://api.thecatapi.com/v1/votes", requestOptions)
-      .then(response => response.text())
+    fetchWrapper.post("v1/votes", body)
       .then(result => {
         console.log(result);
         if (votingType === 1) {
           addUserLog("Likes");
         } else if (votingType === -1) {
           addUserLog("Dislikes");
-        } else {
-          console.log("nothing works");
-          console.log("arg", votingType);
         }
-
         getRandomCat();
         setFavId(null);
       })
-      .catch(error => console.log("error", error));
+      .catch(error => console.error("There was an error!", error));
   };
   useEffect(() => {
     getRandomCat();
@@ -139,7 +83,7 @@ const Voting = () => {
         <Header/>
         <main className="main_voting">
           <div className="btn_back">
-            <Link to="/home">
+            <Link to="/">
               <Button padding={"8px 10px"}
                       icon={<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"
                                  fill="none">
@@ -159,9 +103,19 @@ const Voting = () => {
           <div className="img_btn_pos">
             <div className="icon_voting">
               {cat && <img src={cat.url} alt={cat.id}/>}
+              {!cat && <TailSpin
+                height="80"
+                width="80"
+                color="#FF868E"
+                ariaLabel="tail-spin-loading"
+                radius="1"
+                wrapperStyle={{justifyContent: "center"}}
+                wrapperClass=""
+                visible={true}
+              />}
             </div>
           </div>
-          <div className="btn_complected">
+           {cat && <div className="btn_complected">
             <button className="btn btn_left" onClick={() => postVoting(1)}>
               <svg className="likes" xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 30"
                    fill="none">
@@ -170,13 +124,14 @@ const Voting = () => {
                       fill="white"/>
               </svg>
             </button>
-            <button className="btn btn_center" onClick={() => favId ? deleteFav() : postFavorite() }>
+            <button className="btn btn_center" onClick={() => favId ? deleteFav() : postFavorite()}>
               {!favId && <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60" fill="none">
                 <path fillRule="evenodd" clipRule="evenodd"
                       d="M23.0711 19C19.7181 19 17 21.7181 17 25.0711C17 26.6812 17.6396 28.2254 18.7782 29.364L30 40.5858L41.2218 29.364C42.3604 28.2254 43 26.6812 43 25.0711C43 21.7181 40.2819 19 36.9289 19C35.3188 19 33.7746 19.6396 32.636 20.7782L30.7071 22.7071C30.3166 23.0976 29.6834 23.0976 29.2929 22.7071L27.364 20.7782C26.2254 19.6396 24.6812 19 23.0711 19ZM15 25.0711C15 20.6135 18.6135 17 23.0711 17C25.2116 17 27.2646 17.8503 28.7782 19.364L30 20.5858L31.2218 19.364C32.7354 17.8503 34.7884 17 36.9289 17C41.3865 17 45 20.6135 45 25.0711C45 27.2116 44.1497 29.2646 42.636 30.7782L30.7071 42.7071C30.3166 43.0976 29.6834 43.0976 29.2929 42.7071L17.364 30.7782C15.8503 29.2646 15 27.2116 15 25.0711Z"
                       fill="white"/>
               </svg>}
-              {favId && <svg style={{marginLeft:"18px"}} xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 30" fill="none">
+              {favId && <svg style={{marginLeft: "18px"}} xmlns="http://www.w3.org/2000/svg" width="60" height="60"
+                             viewBox="0 0 60 30" fill="none">
                 <path
                   d="M8.07107 2C3.61354 2 0 5.61354 0 10.0711C0 12.2116 0.850339 14.2646 2.36396 15.7782L14.2929 27.7071C14.6834 28.0976 15.3166 28.0976 15.7071 27.7071L27.636 15.7782C29.1497 14.2646 30 12.2116 30 10.0711C30 5.61354 26.3865 2 21.9289 2C19.7884 2 17.7354 2.85034 16.2218 4.36396L15 5.58579L13.7782 4.36396C12.2646 2.85034 10.2116 2 8.07107 2Z"
                   fill="white"/>
@@ -190,15 +145,18 @@ const Voting = () => {
                       fill="white"/>
               </svg>
             </button>
-          </div>
-          {/*</div>*/}
+          </div>}
 
           {userLogs.map((userLog) => (
             <div className="textItem_voting" key={userLog.catId}>
               <div className="flex_time_desc_voting">
-                <p className="time_voting">{time(userLog.dataTime)}</p>
-                <p className="description_voting">Image ID: <span>{userLog.catId}</span> was added to {userLog.action}
-                </p>
+                <p className="time_voting">{getTime(userLog.dataTime)}</p>
+                {userLog.action !== "Unfavorites" &&
+                  <p className="description_voting">Image ID: <span>{userLog.catId}</span> was added to {userLog.action}
+                  </p>}
+                {userLog.action === "Unfavorites" &&
+                  <p className="description_voting">Image ID: <span>{userLog.catId}</span> was removed from Favorites
+                  </p>}
               </div>
               {userLog.action === "Likes" &&
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">

@@ -84,7 +84,7 @@ const Breeds = () => {
     <Header/>
     <main className="main_breeds">
       <div className="btn_back">
-        <Link to="/home">
+        <Link to="/">
           <Button padding={"8px 10px"}
                   icon={<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"
                              fill="none">
