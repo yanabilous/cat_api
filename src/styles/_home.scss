@@ -1,15 +1,28 @@
-.container {
+.container_home {
   //max-width: 50%;
   .main {
     //max-width: 40%;
 
     .bg {
+      margin-left: 20px;
+      margin-top: 40px;
       background: #FBE0DC;
       border-radius: 10%;
-      max-width: 90%;
+      max-width: 690px;
       height: 100vh;
+      position: relative;
+
+
 
 
     }
+    img{
+        position: absolute;
+        top: 0;
+        //right: -84px;
+        right: 0;
+        max-width: 775px;
+        z-index: 3;
+      }
   }
 }

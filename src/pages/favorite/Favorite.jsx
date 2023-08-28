@@ -3,8 +3,7 @@ import Header from "../../components/header/Header.jsx";
 import {Link} from "react-router-dom";
 import Button from "../../components/button/Button.jsx";
 import Masonry from "../../components/masonry/Masonry.jsx";
-// import image from "react-multi-carousel/dev/components/image.js";
-
+import {fetchWrapper} from "../../utils/makeRequest.js";
 
 const Favorite = () => {
   const [retrievedFavCats, setRetrievedFavCats] = useState([]);
@@ -12,25 +11,10 @@ const Favorite = () => {
     return retrievedFavCats;
 
   };
-
   const getFavorite = () => {
-    let myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-    myHeaders.append("x-api-key", "live_DplEv4vIA4jSOEJfCgEPl45FLrfvWac38q1dhPGBBzn3GQjNLHk3kSaZUky39PUl");
-
-    let requestOptions = {
-      method: "GET",
-      headers: myHeaders,
-      redirect: "follow"
-    };
-
-    fetch("https://api.thecatapi.com/v1/favourites?sub_id=", requestOptions)
-      .then(response => response.text())
-      .then(result => {
-        console.log(result);
-        setRetrievedFavCats(JSON.parse(result).map(item => ({url: item.image.url})));
-      })
-      .catch(error => console.log("error", error));
+    fetchWrapper.get(`v1/favourites?sub_id=`)
+      .then(result => setRetrievedFavCats(result.map(item => ({url: item.image.url}))))
+      .catch(error => console.error("There was an error!", error));
   };
 
   useEffect(() => {

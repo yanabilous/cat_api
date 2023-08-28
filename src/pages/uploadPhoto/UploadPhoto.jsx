@@ -5,7 +5,6 @@ import Button from "../../components/button/Button";
 import BlurOverlay from "../../components/blurOverlay/BlurOverlay";
 
 const UploadPhoto = () => {
-  // const [isPopupOpen, setPopupOpen] = useState(true);
   const [selectedFile, setSelectedFile] = useState(null);
   const [isCatFound, setIsCatFound] = useState(false);
 
@@ -13,16 +12,11 @@ const UploadPhoto = () => {
   const handleUploadPhoto = () => {
     event.preventDefault();
     if (selectedFile) {
-      console.log("Uploading photo:", selectedFile);
-
-
       let formData = new FormData();
       formData.append("file", selectedFile);
 
-
       let headers = new Headers();
       headers.append("x-api-key", "live_DplEv4vIA4jSOEJfCgEPl45FLrfvWac38q1dhPGBBzn3GQjNLHk3kSaZUky39PUl");
-
 
       let requestOptions = {
         method: "POST",
@@ -39,11 +33,9 @@ const UploadPhoto = () => {
           setSelectedFile(null);
           setIsCatFound(true);
         })
-
         .catch(error => console.log("error", error));
     }
   };
-
 
   const {getRootProps, getInputProps} = useDropzone({
     accept: "image/jpeg, image/png",
@@ -52,22 +44,12 @@ const UploadPhoto = () => {
     },
   });
 
-  // const closePopup = () => {
-  //   console.log("Button clicked");
-  //   setPopupOpen(false);
-  // };
-  // if (!isPopupOpen) {
-  //   return null;
-  // }
-
-
   return (
     <>
       <BlurOverlay>
         <div className="container_upload">
           <main className="main_upload">
             <Link to={"/gallery"}>
-              {/*<Button padding="10px 8px" content={"X"} onClick={closePopup}/>*/}
               <Button padding="10px 8px" content={"X"}/>
             </Link>
             <div className="text_upload">
@@ -101,9 +83,6 @@ const UploadPhoto = () => {
             ) : (
               <p className="no_file">Selected file: {selectedFile.name}</p>
             )}
-            {/*<div className="btn_upload">*/}
-            {/*  <Button padding={"12px 28px"} content={"UPLOAD PHOTO"} onClick={handleUploadPhoto} />*/}
-            {/*</div>*/}
             {selectedFile && !isCatFound ? (
               <button onClick={handleUploadPhoto} type="submit">UPLOAD PHOTO</button>
             ) : null}
@@ -117,8 +96,6 @@ const UploadPhoto = () => {
                 <p>Thanks for the Upload - Cat found!</p>
               </div>
             )}
-
-
           </main>
         </div>
       </BlurOverlay>

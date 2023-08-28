@@ -3,6 +3,7 @@ import Header from "../../components/header/Header.jsx";
 import {Link} from "react-router-dom";
 import Button from "../../components/button/Button.jsx";
 import Masonry from "../../components/masonry/Masonry.jsx";
+import {fetchWrapper} from "../../utils/makeRequest.js";
 
 
 const Like = () => {
@@ -11,26 +12,12 @@ const Like = () => {
     return retrievedLikesCats;
 
   };
-
-  const getLikesCats = () => {
-    let myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-    myHeaders.append("x-api-key", "live_DplEv4vIA4jSOEJfCgEPl45FLrfvWac38q1dhPGBBzn3GQjNLHk3kSaZUky39PUl");
-
-    let requestOptions = {
-      method: "GET",
-      headers: myHeaders,
-      redirect: "follow"
-    };
-
-    fetch("https://api.thecatapi.com/v1/votes", requestOptions)
-      .then(response => response.text())
-     .then(result => {
-        console.log(result);
-        setRetrievedLikesCats(JSON.parse(result).map(item => ({url: item.image.url})));
-      })
-      .catch(error => console.log("error", error));
+ const getLikesCats = () => {
+    fetchWrapper.get(`v1/votes`)
+      .then(result =>  setRetrievedLikesCats(result.map(item => ({url: item.image.url}))))
+      .catch(error => console.error("There was an error!", error));
   };
+
 
   useEffect(() => {
     getLikesCats();

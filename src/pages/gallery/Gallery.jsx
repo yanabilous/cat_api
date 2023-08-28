@@ -3,73 +3,43 @@ import Header from "../../components/header/Header.jsx";
 import {Link} from "react-router-dom";
 import Button from "../../components/button/Button.jsx";
 import Masonry from "../../components/masonry/Masonry.jsx";
+import {fetchWrapper} from "../../utils/makeRequest.js";
+import {TailSpin} from "react-loader-spinner";
 
 
 const Gallery = () => {
   const [selectedBreed, setSelectedBreed] = useState("None");
   const [selectedPhotoCount, setSelectedPhotoCount] = useState(5);
   const [availableBreeds, setAvailableBreeds] = useState([]);
-  const [retrievedCats, setRetrievedCats] = useState([]);
+  const [retrievedCats, setRetrievedCats] = useState();
   const [order, setOrder] = useState("Random");
   const [type, setType] = useState("All");
 
   const photoCounts = [5, 10, 15, 20];
   const orders = ["Random", "ASC", "DESC"];
   const types = [{id: "jpg,png,gif", name: "All"}, {id: "jpg,png", name: "Static"}, {id: "gif", name: "Animation"}];
-  const filteredMasonryItems = () => {
-    return retrievedCats;
-
-  };
-
 
   const getCats = () => {
-    let myHeaders = new Headers();
-    myHeaders.append("x-api-key", "live_DplEv4vIA4jSOEJfCgEPl45FLrfvWac38q1dhPGBBzn3GQjNLHk3kSaZUky39PUl");
-    myHeaders.append("Content-Type", "application/json");
-
-
-    let requestOptions = {
-      method: "GET", headers: myHeaders, redirect: "follow"
-    };
-
-
-    fetch(`https://api.thecatapi.com/v1/images/search?mime_types=${type}&order=${order}&limit=${selectedPhotoCount}${selectedBreed === "None" ? "" : "&breed_ids=" + selectedBreed}`, requestOptions)
-      .then(response => response.text())
-      .then(result => {
-        console.log(result);
-        setRetrievedCats(JSON.parse(result));
-      })
-      .catch(error => console.log("error", error));
+    setRetrievedCats(null)
+    fetchWrapper.get(`v1/images/search?mime_types=${type}&order=${order}&limit=${selectedPhotoCount}${["None", "All breeds"].includes(selectedBreed) ? "" : "&breed_ids=" + selectedBreed}`)
+      .then(result => setRetrievedCats(result))
+      .catch(error => console.error("There was an error!", error));
   };
+
   const getBreeds = () => {
-    console.log("getBreeds");
-    let myHeaders = new Headers();
-    myHeaders.append("x-api-key", "live_DplEv4vIA4jSOEJfCgEPl45FLrfvWac38q1dhPGBBzn3GQjNLHk3kSaZUky39PUl");
-    myHeaders.append("Content-Type", "application/json");
-
-    const requestOptions = {
-      method: "GET", headers: myHeaders, redirect: "follow"
-    };
-
-    fetch("https://api.thecatapi.com/v1/breeds?limit=10&page=0", requestOptions)
-      .then(response => response.text())
+    fetchWrapper.get(`v1/breeds?limit=10&page=0`)
       .then(result => {
-        console.log("getBreeds result", result);
-        const breeds = JSON.parse(result).map(breed => ({name: breed.name, id: breed.id}));
+        const breeds = result.map(breed => ({name: breed.name, id: breed.id}));
         setAvailableBreeds([{"name": "All breeds", id: "All breeds"}, ...breeds]);
       })
-      .catch(error => console.log("error", error));
+      .catch(error => console.error("There was an error!", error));
   };
-  // ignor
   useEffect(() => {
     getBreeds();
-    getCats();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     getCats();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedBreed, selectedPhotoCount, order, type]);
   const handleBreedChange = (event) => {
     setSelectedBreed(event.target.value);
@@ -79,12 +49,8 @@ const Gallery = () => {
     setSelectedPhotoCount(parseInt(event.target.value));
   };
 
-
-
-
   return (
     <>
-      {/*<Sidebar/>*/}
       <div className="container">
         <Header/>
         <main className="main_gallery">
@@ -107,7 +73,7 @@ const Gallery = () => {
               </Link>
               <p>GALLERY</p>
             </div>
-            <Link to="uploadPhoto">
+            <Link className="uploadPhoto" to="uploadPhoto">
               <Button padding={"10px 34px"} content={"UPLOAD"}
                       icon={<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"
                                  fill="none">
@@ -172,7 +138,17 @@ const Gallery = () => {
             </div>
           </div>
 
-          <Masonry items={filteredMasonryItems()}/>
+          {retrievedCats && <Masonry items={retrievedCats}/>}
+          {!retrievedCats && <TailSpin
+                height="80"
+                width="80"
+                color="#FF868E"
+                ariaLabel="tail-spin-loading"
+                radius="1"
+                wrapperStyle={{justifyContent: "center"}}
+                wrapperClass=""
+                visible={true}
+              />}
         </main>
       </div>
     </>

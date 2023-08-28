@@ -11,7 +11,6 @@ const Voting = () => {
   const [userLogs, setUserLogs] = useState([]);
   const [favId, setFavId] = useState();
   const currentUser = localStorage.getItem("userId");
-  // const [isLoading, setIsLoading] = useState(false)
 
   const getRandomCat = () => {
     fetchWrapper.get(`v1/images/search`)
@@ -178,8 +177,6 @@ const Voting = () => {
                 </svg>}
             </div>
           ))}
-
-
         </main>
       </div>
     </>

@@ -3,6 +3,7 @@ import Header from "../../components/header/Header.jsx";
 import {Link} from "react-router-dom";
 import Button from "../../components/button/Button.jsx";
 import Masonry from "../../components/masonry/Masonry.jsx";
+import {fetchWrapper} from "../../utils/makeRequest.js";
 
 
 const Dislike = () => {
@@ -11,27 +12,13 @@ const Dislike = () => {
     return retrievedCats;
 
   };
-
-
   const getCats = () => {
-    let myHeaders = new Headers();
-    myHeaders.append("x-api-key", "live_DplEv4vIA4jSOEJfCgEPl45FLrfvWac38q1dhPGBBzn3GQjNLHk3kSaZUky39PUl");
-    myHeaders.append("Content-Type", "application/json");
-
-
-    let requestOptions = {
-      method: "GET", headers: myHeaders, redirect: "follow"
-    };
-
-
-    fetch(`https://api.thecatapi.com/v1/images/search?`, requestOptions)
-      .then(response => response.text())
-      .then(result => {
-        console.log(result);
-        setRetrievedCats(JSON.parse(result));
-      })
-      .catch(error => console.log("error", error));
+    fetchWrapper.get(`v1/images/search?`)
+      .then(result => setRetrievedCats(result))
+      .catch(error => console.error("There was an error!", error));
   };
+
+
   useEffect(() => {
     getCats();
   }, []);

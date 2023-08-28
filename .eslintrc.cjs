@@ -13,6 +13,7 @@ module.exports = {
   plugins: ['react-refresh'],
   rules: {
     'react/prop-types': 'error',
+    "react-hooks/exhaustive-deps": 'off',
     'react-refresh/only-export-components': [
       'warn',
       { allowConstantExport: true },
